@@ -1,0 +1,31 @@
+# This is a placeholder for the icon file
+# You should replace this with an actual .ico file
+# You can create one using an icon editor or convert an image to .ico format 
+
+from PIL import Image, ImageDraw
+
+# Tạo một hình ảnh mới với nền trong suốt
+img = Image.new('RGBA', (256, 256), (0, 0, 0, 0))
+draw = ImageDraw.Draw(img)
+
+# Vẽ đầu mèo (hình tròn)
+draw.ellipse((50, 50, 206, 206), fill='#1e1e1e', outline='white', width=3)
+
+# Vẽ tai mèo
+draw.polygon([(100, 50), (80, 20), (120, 20)], fill='#1e1e1e', outline='white', width=3)
+draw.polygon([(156, 50), (176, 20), (136, 20)], fill='#1e1e1e', outline='white', width=3)
+
+# Vẽ mắt mèo
+draw.ellipse((90, 100, 110, 120), fill='white')
+draw.ellipse((146, 100, 166, 120), fill='white')
+draw.ellipse((95, 105, 105, 115), fill='#1e1e1e')
+draw.ellipse((151, 105, 161, 115), fill='#1e1e1e')
+
+# Vẽ mũi mèo
+draw.polygon([(128, 130), (118, 140), (138, 140)], fill='white')
+
+# Vẽ miệng mèo
+draw.arc((110, 140, 146, 160), 0, 180, fill='white', width=2)
+
+# Lưu icon
+img.save('pet_store.ico', format='ICO', sizes=[(256, 256)]) 
