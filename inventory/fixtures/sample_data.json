@@ -1,0 +1,132 @@
+[
+    {
+        "model": "inventory.product",
+        "pk": 1,
+        "fields": {
+            "name": "Dog Food - Premium",
+            "sku": "PET001",
+            "quantity": 50,
+            "aisle": "A",
+            "bay": "1",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.product",
+        "pk": 2,
+        "fields": {
+            "name": "Cat Food - Salmon",
+            "sku": "PET002",
+            "quantity": 8,
+            "aisle": "A",
+            "bay": "2",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.product",
+        "pk": 3,
+        "fields": {
+            "name": "Bird Cage - Large",
+            "sku": "PET003",
+            "quantity": 15,
+            "aisle": "B",
+            "bay": "1",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.product",
+        "pk": 4,
+        "fields": {
+            "name": "Fish Tank - 20L",
+            "sku": "PET004",
+            "quantity": 5,
+            "aisle": "B",
+            "bay": "2",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.product",
+        "pk": 5,
+        "fields": {
+            "name": "Pet Shampoo",
+            "sku": "PET005",
+            "quantity": 30,
+            "aisle": "C",
+            "bay": "1",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.product",
+        "pk": 6,
+        "fields": {
+            "name": "Dog Toys Bundle",
+            "sku": "PET006",
+            "quantity": 25,
+            "aisle": "C",
+            "bay": "2",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.product",
+        "pk": 7,
+        "fields": {
+            "name": "Cat Litter - 10kg",
+            "sku": "PET007",
+            "quantity": 40,
+            "aisle": "D",
+            "bay": "1",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.product",
+        "pk": 8,
+        "fields": {
+            "name": "Pet Brush",
+            "sku": "PET008",
+            "quantity": 7,
+            "aisle": "D",
+            "bay": "2",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.product",
+        "pk": 9,
+        "fields": {
+            "name": "Fish Food - Tropical",
+            "sku": "PET009",
+            "quantity": 60,
+            "aisle": "E",
+            "bay": "1",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.product",
+        "pk": 10,
+        "fields": {
+            "name": "Bird Seeds - Mixed",
+            "sku": "PET010",
+            "quantity": 9,
+            "aisle": "E",
+            "bay": "2",
+            "created_at": "2024-04-23T10:00:00Z",
+            "updated_at": "2024-04-23T10:00:00Z"
+        }
+    }
+] 
