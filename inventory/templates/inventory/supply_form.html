@@ -1,4 +1,4 @@
-{% extends 'inventory/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 <div class="container">
@@ -6,7 +6,17 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-4">{% if object %}Edit{% else %}Add{% endif %} Product</h4>
+                    <h4 class="card-title mb-4">{% if object %}Edit{% else %}Add{% endif %} Supply</h4>
+                    
+                    {% if messages %}
+                    <div class="messages mb-4">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     
                     <form method="post">
                         {% csrf_token %}
@@ -28,7 +38,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-2"></i>Save
                             </button>
-                            <a href="{% url 'product_list' %}" class="btn btn-danger">
+                            <a href="{% url 'supply_list' %}" class="btn btn-secondary">
                                 <i class="fas fa-times me-2"></i>Cancel
                             </a>
                         </div>

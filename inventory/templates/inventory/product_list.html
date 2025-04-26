@@ -4,9 +4,11 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Product List</h1>
+        {% if perms.inventory.can_edit_product %}
         <a href="{% url 'product_create' %}" class="btn btn-primary">
             <i class="fas fa-plus me-2"></i>Add New Product
         </a>
+        {% endif %}
     </div>
 
     <div class="card">
@@ -19,7 +21,9 @@
                             <th>SKU</th>
                             <th>Quantity</th>
                             <th>Location</th>
+                            {% if perms.inventory.can_edit_product %}
                             <th>Actions</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -27,8 +31,14 @@
                         <tr>
                             <td>{{ product.name }}</td>
                             <td>{{ product.sku }}</td>
-                            <td>{{ product.quantity }}</td>
+                            <td>
+                                {{ product.quantity }}
+                                {% if product.quantity < 10 %}
+                                <span class="badge bg-warning ms-2">Low Stock</span>
+                                {% endif %}
+                            </td>
                             <td>{{ product.aisle }}{{ product.bay }}</td>
+                            {% if perms.inventory.can_edit_product %}
                             <td>
                                 <a href="{% url 'product_update' product.pk %}" class="btn btn-sm btn-outline-primary me-2">
                                     <i class="fas fa-edit"></i>
@@ -37,6 +47,7 @@
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
+                            {% endif %}
                         </tr>
                         {% empty %}
                         <tr>
