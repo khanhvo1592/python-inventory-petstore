@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Products</h5>
+                    <h2 class="card-text">{{ total_products }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Low Stock Products</h5>
+                    <h2 class="card-text">{{ low_stock_products }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Out of Stock Products</h5>
+                    <h2 class="card-text">{{ out_of_stock_products }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Monthly Stock Movement</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="stockChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Alerts</h5>
+                </div>
+                <div class="card-body">
+                    {% for alert in unread_alerts %}
+                    <div class="alert {% if alert.alert_type == 'low_stock' %}alert-warning{% else %}alert-danger{% endif %} mb-2">
+                        <p class="mb-0">{{ alert.message }}</p>
+                        <small class="text-muted">{{ alert.created_at|timesince }} ago</small>
+                        <button class="btn btn-sm btn-outline-secondary float-end mark-read" 
+                                data-alert-id="{{ alert.id }}">
+                            Mark as Read
+                        </button>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted">No unread alerts</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Transactions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Product</th>
+                                    <th>Type</th>
+                                    <th>Quantity</th>
+                                    <th>Reference</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in recent_transactions %}
+                                <tr>
+                                    <td>{{ transaction.created_at|date:"Y-m-d H:i" }}</td>
+                                    <td>{{ transaction.product.name }}</td>
+                                    <td>{{ transaction.get_transaction_type_display }}</td>
+                                    <td>{{ transaction.quantity }}</td>
+                                    <td>{{ transaction.reference|default:"-" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center">No recent transactions</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Stock Movement Chart
+    const ctx = document.getElementById('stockChart').getContext('2d');
+    const monthlyData = {{ monthly_movement|safe }};
+    
+    const labels = [...new Set(monthlyData.map(item => item.month))];
+    const inData = labels.map(month => {
+        const item = monthlyData.find(d => d.month === month && d.transaction_type === 'in');
+        return item ? item.total_quantity : 0;
+    });
+    const outData = labels.map(month => {
+        const item = monthlyData.find(d => d.month === month && d.transaction_type === 'out');
+        return item ? item.total_quantity : 0;
+    });
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Stock In',
+                data: inData,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }, {
+                label: 'Stock Out',
+                data: outData,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Mark alerts as read
+    document.querySelectorAll('.mark-read').forEach(button => {
+        button.addEventListener('click', function() {
+            const alertId = this.dataset.alertId;
+            fetch('/mark-alert-read/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: `alert_id=${alertId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    this.closest('.alert').remove();
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %} 

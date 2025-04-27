@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Alert Settings</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <h5>Low Stock Alert</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="low_stock_threshold">Threshold</label>
+                                        <input type="number" class="form-control" id="low_stock_threshold" 
+                                               name="threshold" value="{{ alert_configs.low_stock.threshold|default:10 }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check mt-4">
+                                        <input type="checkbox" class="form-check-input" id="low_stock_active" 
+                                               name="is_active" {% if alert_configs.low_stock.is_active %}checked{% endif %}>
+                                        <label class="form-check-label" for="low_stock_active">Enable Alert</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="alert_type" value="low_stock">
+                        </div>
+
+                        <div class="mb-4">
+                            <h5>Out of Stock Alert</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="out_of_stock_threshold">Threshold</label>
+                                        <input type="number" class="form-control" id="out_of_stock_threshold" 
+                                               name="threshold" value="{{ alert_configs.out_of_stock.threshold|default:0 }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check mt-4">
+                                        <input type="checkbox" class="form-check-input" id="out_of_stock_active" 
+                                               name="is_active" {% if alert_configs.out_of_stock.is_active %}checked{% endif %}>
+                                        <label class="form-check-label" for="out_of_stock_active">Enable Alert</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="alert_type" value="out_of_stock">
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Settings
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
